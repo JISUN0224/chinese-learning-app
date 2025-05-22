@@ -1,0 +1,212 @@
+import React, { useState, useEffect } from 'react';
+import { getIdiomCategories, getIdiomsByCategory } from '../../services/idiomService';
+import IdiomFlashCard from '../IdiomLearning/IdiomFlashCard';
+import IdiomPreview from '../IdiomLearning/IdiomPreview';
+import ProgressIndicator from '../IdiomLearning/ProgressIndicator';
+import './IdiomLearning.css';
+
+// 한 번에 학습할 성어 수
+const IDIOMS_PER_BATCH = 10;
+
+function IdiomLearningView({ onBackToHome }) {
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [allIdioms, setAllIdioms] = useState([]);
+  const [currentBatch, setCurrentBatch] = useState([]);
+  const [batchIndex, setBatchIndex] = useState(0);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [viewMode, setViewMode] = useState('category'); // 'category', 'preview', 'learning', 'complete'
+  
+  // 성어 카테고리 로드
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setIsLoading(true);
+        const data = getIdiomCategories();
+        setCategories(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('카테고리 로드 오류:', error);
+        setError('카테고리를 불러올 수 없습니다.');
+        setIsLoading(false);
+      }
+    };
+    
+    fetchCategories();
+  }, []);
+  
+  // 카테고리 선택 시 해당 성어 데이터 로드
+  const handleCategorySelect = async (categoryId) => {
+    try {
+      setIsLoading(true);
+      setSelectedCategory(categoryId);
+      
+      // getIdiomsByCategory는 Promise를 반환하므로 await 사용
+      const data = await getIdiomsByCategory(categoryId);
+      setAllIdioms(data);
+      
+      // 첫 번째 배치 설정
+      const firstBatch = data.slice(0, IDIOMS_PER_BATCH);
+      setCurrentBatch(firstBatch);
+      setBatchIndex(0);
+      setCurrentCardIndex(0);
+      
+      setViewMode('preview');
+      setIsLoading(false);
+    } catch (error) {
+      console.error('성어 데이터 로드 오류:', error);
+      setError('성어 데이터를 불러올 수 없습니다.');
+      setIsLoading(false);
+    }
+  };
+  
+  // 학습 시작하기
+  const handleStartLearning = () => {
+    setViewMode('learning');
+    setCurrentCardIndex(0);
+  };
+  
+  // 다음 카드로 이동
+  const goToNextCard = () => {
+    if (currentCardIndex < currentBatch.length - 1) {
+      // 현재 배치 내에서 다음 카드로 이동
+      setCurrentCardIndex(currentCardIndex + 1);
+    } else {
+      // 현재 배치의 마지막 카드인 경우
+      setViewMode('complete');
+    }
+  };
+  
+  // 이전 카드로 이동
+  const goToPrevCard = () => {
+    if (currentCardIndex > 0) {
+      setCurrentCardIndex(currentCardIndex - 1);
+    }
+  };
+  
+  // 다음 배치로 이동
+  const goToNextBatch = () => {
+    const nextBatchIndex = batchIndex + 1;
+    const startIndex = nextBatchIndex * IDIOMS_PER_BATCH;
+    
+    if (startIndex < allIdioms.length) {
+      const nextBatch = allIdioms.slice(startIndex, startIndex + IDIOMS_PER_BATCH);
+      setCurrentBatch(nextBatch);
+      setBatchIndex(nextBatchIndex);
+      setCurrentCardIndex(0);
+      setViewMode('preview');
+    } else {
+      // 모든 성어 학습 완료
+      alert("모든 성어를 학습했습니다!");
+      setViewMode('category');
+    }
+  };
+  
+  // 카테고리 선택 화면으로 돌아가기
+  const goBackToCategories = () => {
+    setViewMode('category');
+    setSelectedCategory(null);
+  };
+  
+  if (isLoading) {
+    return <div className="loading">데이터를 불러오는 중...</div>;
+  }
+  
+  if (error) {
+    return (
+      <div className="error">
+        <p>{error}</p>
+        <button onClick={onBackToHome} className="back-button">홈으로 돌아가기</button>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="idiom-learning-view">
+      <div className="learning-header">
+        <button className="back-button" onClick={
+          viewMode === 'category' ? onBackToHome : goBackToCategories
+        }>
+          {viewMode === 'category' ? '← 홈으로' : '← 카테고리로'}
+        </button>
+        
+        <div className="learning-info">
+          <h2>
+            {viewMode === 'category' ? '성어 학습' :
+             `${selectedCategory} 성어 학습`}
+          </h2>
+          {viewMode !== 'category' && (
+            <p>배치 {batchIndex + 1}/{Math.ceil(allIdioms.length / IDIOMS_PER_BATCH)}</p>
+          )}
+        </div>
+      </div>
+      
+      {viewMode === 'category' && (
+        <div className="category-list">
+          <h3>성어 카테고리 선택</h3>
+          <div className="category-grid">
+            {categories.map(category => (
+              <div 
+                key={category.id}
+                className="category-card"
+                onClick={() => handleCategorySelect(category.id)}
+              >
+                <h4>{category.name}</h4>
+                <p>{category.description}</p>
+                <span className="word-count">{category.wordCount}개 성어</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {viewMode === 'preview' && (
+        <div className="preview-container">
+          <IdiomPreview 
+            idiomList={currentBatch} 
+            onStartLearning={handleStartLearning}
+          />
+        </div>
+      )}
+      
+      {viewMode === 'learning' && (
+        <>
+          <div className="cards-progress">
+            <ProgressIndicator 
+              current={currentCardIndex + 1} 
+              total={currentBatch.length}
+            />
+          </div>
+          
+          <div className="flashcard-container">
+            <IdiomFlashCard 
+              idiom={currentBatch[currentCardIndex]} 
+              onNext={goToNextCard}
+              onPrev={goToPrevCard}
+              isFirst={currentCardIndex === 0}
+              isLast={currentCardIndex === currentBatch.length - 1}
+              currentIndex={currentCardIndex}
+              totalCards={currentBatch.length}
+            />
+          </div>
+        </>
+      )}
+      
+      {viewMode === 'complete' && (
+        <div className="batch-complete">
+          <h3>배치 학습 완료!</h3>
+          <p>{currentBatch.length}개 성어를 학습했습니다.</p>
+          <div className="action-buttons">
+            <button className="next-batch-button" onClick={goToNextBatch}>
+              다음 배치 학습하기
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default IdiomLearningView;

@@ -1,0 +1,51 @@
+.animation-container {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 10px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+.animation-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.animation-controls button {
+  padding: 5px 10px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.animation-controls button:hover {
+  background-color: #357abd;
+}
+
+.animation-controls button.active {
+  background-color: #4CAF50;
+}
+
+.animation-controls button.active:hover {
+  background-color: #388E3C;
+}
+
+.multi-character-animation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.error-message {
+  color: #f44336;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+}

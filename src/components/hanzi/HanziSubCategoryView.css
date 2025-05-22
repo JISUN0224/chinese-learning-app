@@ -1,0 +1,237 @@
+/* HanziSubCategoryView.css */
+.hanzi-subcategory-view {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.subcategory-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.back-button {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.back-button:hover {
+  background-color: #e0e0e0;
+}
+
+.category-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-title .category-icon {
+  font-size: 32px;
+}
+
+.category-title h2 {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+}
+
+/* 드롭다운 선택기 */
+.subcategory-selector {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border: 1px solid #e9ecef;
+}
+
+.subcategory-selector label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.subcategory-selector select {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.subcategory-selector select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+/* 하위 카테고리 그리드 */
+.subcategory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.subcategory-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.subcategory-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.level-card {
+  border-left: 4px solid #4a90e2;
+}
+
+.level-card:hover {
+  border-left-color: #357abd;
+  background-color: #f0f6ff;
+}
+
+.radical-card {
+  border-left: 4px solid #28a745;
+}
+
+.radical-card:hover {
+  border-left-color: #1e7e34;
+  background-color: #f0fff4;
+}
+
+.pos-card {
+  border-left: 4px solid #17a2b8;
+}
+
+.pos-card:hover {
+  border-left-color: #138496;
+  background-color: #f0fdff;
+}
+
+.frequency-card {
+  border-left: 4px solid #dc3545;
+}
+
+.frequency-card:hover {
+  border-left-color: #c82333;
+  background-color: #fff5f5;
+}
+
+.subcategory-card h4 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.subcategory-card p {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0 0 12px 0;
+}
+
+.word-count {
+  display: inline-block;
+  background-color: rgba(74, 144, 226, 0.1);
+  color: #4a90e2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 카테고리 정보 */
+.category-info {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  text-align: center;
+}
+
+.category-info h3 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.category-info p {
+  margin: 0;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .hanzi-subcategory-view {
+    padding: 15px;
+  }
+  
+  .subcategory-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .category-title h2 {
+    font-size: 24px;
+  }
+  
+  .subcategory-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .subcategory-selector {
+    padding: 15px;
+  }
+  
+  .subcategory-selector select {
+    max-width: 100%;
+  }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subcategory-card {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.subcategory-card:nth-child(1) { animation-delay: 0.1s; }
+.subcategory-card:nth-child(2) { animation-delay: 0.2s; }
+.subcategory-card:nth-child(3) { animation-delay: 0.3s; }
+.subcategory-card:nth-child(4) { animation-delay: 0.4s; }

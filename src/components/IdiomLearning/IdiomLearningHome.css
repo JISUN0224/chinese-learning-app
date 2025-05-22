@@ -1,0 +1,120 @@
+/* IdiomLearningHome.css */
+.idiom-learning-home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.page-title {
+  text-align: center;
+  color: #e74c3c;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.idiom-categories {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.category-title {
+  color: #e74c3c;
+  margin-bottom: 15px;
+  font-size: 22px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.category-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.category-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1 1 calc(25% - 15px);
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid #e74c3c;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.category-card h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.category-card p {
+  flex-grow: 1;
+  color: #666;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.word-count, .favorites-label {
+  font-size: 13px;
+  color: #888;
+  align-self: flex-end;
+}
+
+.favorites-card {
+  border-left: 4px solid #f39c12;
+}
+
+.favorites-label {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.idiom-info {
+  background-color: #fef9e7;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  border-left: 4px solid #f39c12;
+}
+
+.idiom-info h3 {
+  color: #e67e22;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.idiom-info p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* 반응형 */
+@media (max-width: 992px) {
+  .category-card {
+    flex: 1 1 calc(33.333% - 15px);
+  }
+}
+
+@media (max-width: 768px) {
+  .category-card {
+    flex: 1 1 calc(50% - 15px);
+  }
+}
+
+@media (max-width: 576px) {
+  .category-card {
+    flex: 1 1 100%;
+  }
+}

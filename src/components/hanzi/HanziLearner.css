@@ -1,0 +1,126 @@
+/* 기본 레이아웃 */
+.hanzi-learner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* 한자 기본 정보 영역 */
+.hanzi-display {
+  text-align: center;
+  margin: 10px 0;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.horizontal-display {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+.character {
+  font-size: 100px;
+  line-height: 1.1;
+  margin-right: 20px;
+  margin-bottom: 0;
+}
+
+.character-info {
+  text-align: left;
+  flex: 1;
+}
+
+.pinyin {
+  font-size: 24px;
+  color: #4a90e2;
+  margin-bottom: 5px;
+}
+
+.meaning, .additional-info p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+/* 애니메이션 및 쓰기 연습 영역 */
+.stroke-animation-section {
+  margin: 15px 0;
+}
+
+.stroke-animation-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+/* 네비게이션 버튼 */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.navigation-buttons button {
+  padding: 8px 15px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.navigation-buttons button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.progress {
+  font-size: 16px;
+  color: #666;
+}
+
+/* 로딩 및 오류 메시지 */
+.loading, .error {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 18px;
+  color: #666;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 767px) {
+  .horizontal-display {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .character {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .character-info {
+    text-align: center;
+  }
+}
+
+.vocabulary-button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.vocabulary-button:hover {
+  background-color: #388E3C;
+}

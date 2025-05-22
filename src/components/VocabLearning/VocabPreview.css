@@ -1,0 +1,89 @@
+.vocab-preview {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.vocab-preview h3 {
+  font-size: 22px;
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.preview-info {
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 15px;
+}
+
+.preview-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.preview-item {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  transition: all 0.2s ease;
+}
+
+.preview-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preview-item .chinese {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.preview-item .pinyin {
+  font-size: 14px;
+  color: #4a90e2;
+  margin-bottom: 5px;
+}
+
+.preview-item .meaning {
+  font-size: 14px;
+  color: #666;
+}
+
+.preview-actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.start-learning-btn {
+  padding: 12px 24px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.start-learning-btn:hover {
+  background-color: #357abd;
+}
+
+.vocab-preview.empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 16px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 576px) {
+  .preview-list {
+    grid-template-columns: 1fr;
+  }
+}

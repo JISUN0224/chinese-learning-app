@@ -1,0 +1,112 @@
+.multiple-choice {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.question-text {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.option {
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.option.selected {
+  background-color: #e6f2ff;
+  border-color: #4a90e2;
+  box-shadow: 0 2px 5px rgba(74, 144, 226, 0.2);
+}
+
+.option.correct {
+  background-color: #e6ffe6;
+  border-color: #4CAF50;
+  animation: pulse-green 0.5s;
+}
+
+.option.incorrect {
+  background-color: #ffe6e6;
+  border-color: #F44336;
+  animation: pulse-red 0.5s;
+}
+
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-button.active {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.submit-button.active:hover {
+  background-color: #357abd;
+}
+
+.submit-button.disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* 반응형 */
+@media (max-width: 576px) {
+  .multiple-choice {
+    padding: 15px;
+  }
+  
+  .question-text {
+    font-size: 18px;
+  }
+  
+  .option {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .submit-button {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

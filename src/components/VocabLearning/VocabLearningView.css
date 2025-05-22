@@ -1,0 +1,152 @@
+.vocab-learning-view {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.learning-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.learning-info h2 {
+  margin: 0 0 5px 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.learning-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.back-button {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* 프로그레스 바 */
+.cards-progress {
+  margin-bottom: 20px;
+}
+
+/* 플래시카드 스타일 */
+.flashcard-container {
+  margin: 20px 0;
+}
+
+/* 배치 완료 메시지 */
+.batch-complete {
+  text-align: center;
+  padding: 30px;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.batch-complete h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #4a90e2;
+}
+
+.batch-complete p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.quiz-button, .next-batch-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quiz-button {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.quiz-button:hover {
+  background-color: #357abd;
+}
+
+.next-batch-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.next-batch-button:hover {
+  background-color: #388E3C;
+}
+
+/* 로딩 및 오류 메시지 */
+.loading, .error {
+  text-align: center;
+  padding: 50px;
+  margin: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  color: #666;
+}
+
+.error {
+  border: 1px solid #ffcccc;
+  background-color: #fff6f6;
+  color: #f44336;
+}
+
+/* 미리보기 컨테이너 */
+.preview-container {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 576px) {
+  .vocab-learning-view {
+    padding: 10px;
+  }
+  
+  .learning-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .quiz-button, .next-batch-button {
+    width: 100%;
+  }
+}
