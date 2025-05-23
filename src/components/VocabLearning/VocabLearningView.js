@@ -42,7 +42,9 @@ function VocabLearningView({ params, onStartQuiz, onBackToHome }) {
         // 레벨/테마별 어휘 로드
         else {
           const { level, theme } = params || {};
-          data = await loadVocabularyByLevelOrTheme(level?.id, theme?.id);
+          // 테마의 경우 name을 사용 (실제 카테고리 이름)
+          const themeId = theme ? theme.name : null;
+          data = await loadVocabularyByLevelOrTheme(level?.id, themeId);
         }
         
         console.log('Loaded vocabulary data:', data?.length || 0, 'items');

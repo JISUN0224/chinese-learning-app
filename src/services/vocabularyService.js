@@ -1,5 +1,5 @@
 // vocabularyService.js
-import mergedVocabData from '../data/merged_vocab.json';
+import mergedVocabData from '../data/merged_vocab_recategorized.json';
 
 // merged_vocab.json에서 HSK 레벨 추출
 const extractLevels = () => {
@@ -76,17 +76,35 @@ const extractLevels = () => {
   return Array.from(levels.values()).sort((a, b) => a.order - b.order);
 };
 
-// 테마는 임시로 만든 기본 테마 사용
+// 테마는 category 필드를 기반으로 실제 데이터에서 추출
 const extractThemes = () => {
-  const defaultThemes = [
-    { id: 'daily', name: '일상생활', description: '일상생활에서 자주 사용하는 표현', wordCount: 150 },
-    { id: 'study', name: '학습', description: '학교와 학습에 관련된 표현', wordCount: 120 },
-    { id: 'travel', name: '여행', description: '여행에서 유용한 표현', wordCount: 100 },
-    { id: 'food', name: '음식', description: '음식과 요리에 관련된 표현', wordCount: 80 },
-    { id: 'business', name: '비즈니스', description: '비즈니스와 직장에서 쓰이는 표현', wordCount: 90 }
-  ];
+  const categories = new Map();
   
-  return defaultThemes;
+  mergedVocabData.forEach(vocab => {
+    if (vocab.category) {
+      const categoryName = vocab.category.trim();
+      if (!categories.has(categoryName)) {
+        categories.set(categoryName, {
+          id: categoryName.toLowerCase().replace(/[^a-z0-9가-힣]/g, '_'),
+          name: categoryName,
+          description: `${categoryName} 관련 어휘`,
+          wordCount: 1
+        });
+      } else {
+        const category = categories.get(categoryName);
+        category.wordCount++;
+      }
+    }
+  });
+  
+  // 단어 수가 많은 순으로 정렬
+  const sortedCategories = Array.from(categories.values())
+    .sort((a, b) => b.wordCount - a.wordCount)
+    .slice(0, 15); // 상위 15개 카테고리만 표시
+  
+  console.log('추출된 카테고리:', sortedCategories);
+  
+  return sortedCategories;
 };
 
 // HSK 레벨 추출 헬퍼 함수
@@ -145,9 +163,11 @@ export const loadVocabularyByLevelOrTheme = async (levelId, themeId) => {
       console.log(`레벨 ${levelId} 단어 로드:`, filteredVocab.length, '개');
       
     } else if (themeId) {
-      // 테마별은 임시로 전체 데이터에서 랜덤 선택
-      const shuffled = [...mergedVocabData].sort(() => 0.5 - Math.random());
-      filteredVocab = shuffled.slice(0, 50);
+      // 테마별은 category 필드를 기반으로 필터링
+      const categoryName = themeId;
+      filteredVocab = mergedVocabData.filter(vocab => 
+        vocab.category && vocab.category.trim() === categoryName
+      );
       console.log(`테마 ${themeId} 단어 로드:`, filteredVocab.length, '개');
     } else {
       // 기본값: 신HSK 1급 단어
@@ -164,11 +184,12 @@ export const loadVocabularyByLevelOrTheme = async (levelId, themeId) => {
       meaning: vocab.meaning?.ko || vocab.meaning || '',
       hsk: extractHskLevel(vocab),
       example: vocab.example || '',
+      category: vocab.category || '',
       audio: vocab.audio || null
     }));
     
     console.log('정규화된 어휘 샘플:', normalizedVocab.slice(0, 3));
-    return normalizedVocab.slice(0, 50); // 최대 50개로 제한
+    return normalizedVocab; // 최대 50개로 제한
     
   } catch (error) {
     console.error('어휘 로딩 오류:', error);
@@ -194,6 +215,7 @@ export const loadVocabularyByHanzi = async (hanzi) => {
       meaning: vocab.meaning?.ko || vocab.meaning || '',
       hsk: extractHskLevel(vocab),
       example: vocab.example || '',
+      category: vocab.category || '',
       audio: vocab.audio || null
     }));
     

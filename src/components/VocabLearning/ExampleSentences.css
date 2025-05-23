@@ -1,0 +1,149 @@
+/* ExampleSentences 컴포넌트 스타일 */
+.example-sentences {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.current-vocab {
+  text-align: center;
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.current-vocab .chinese {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.current-vocab .pinyin {
+  font-size: 18px;
+  color: #007bff;
+  margin-bottom: 8px;
+}
+
+.current-vocab .meaning {
+  font-size: 16px;
+  color: #666;
+}
+
+.example-sentences h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.examples-empty {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.examples-empty .vocab-info {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.examples-empty .vocab-info .chinese {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.examples-empty .vocab-info .pinyin {
+  font-size: 16px;
+  color: #007bff;
+  margin-bottom: 5px;
+}
+
+.examples-empty .vocab-info .meaning {
+  font-size: 14px;
+  color: #666;
+}
+
+.examples-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.example-item {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.example-chinese {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.example-pinyin {
+  font-size: 14px;
+  color: #007bff;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.translation-toggle {
+  padding: 6px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.translation-toggle:hover {
+  background-color: #218838;
+}
+
+.example-translation {
+  padding: 10px;
+  background-color: #e9f7ef;
+  border-left: 4px solid #28a745;
+  border-radius: 0 4px 4px 0;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .example-sentences {
+    padding: 15px;
+    margin: 15px 0;
+  }
+  
+  .current-vocab .chinese {
+    font-size: 28px;
+  }
+  
+  .current-vocab .pinyin {
+    font-size: 16px;
+  }
+  
+  .example-chinese {
+    font-size: 16px;
+  }
+  
+  .example-pinyin {
+    font-size: 13px;
+  }
+}

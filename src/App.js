@@ -7,6 +7,7 @@ import HanziCategoryView from './components/hanzi/HanziCategoryView';
 import HanziLearner from './components/hanzi/HanziLearner';
 import VocabLearningHome from './components/VocabLearning/VocabLearningHome';
 import VocabLearningView from './components/VocabLearning/VocabLearningView';
+import HanziVocabLearner from './components/VocabLearning/HanziVocabLearner';
 import IdiomLearningView from './components/IdiomLearning/IdiomLearningView';
 import QuizView from './components/Quiz/QuizView';
 
@@ -164,14 +165,10 @@ function App() {
         )}
         
         {activeView === 'vocabulary' && learningParams && learningParams.character && (
-          <div className="vocabulary-view">
-            <h2>'{learningParams.character}' 관련 어휘</h2>
-            <VocabLearningView 
-              params={{ character: learningParams.character }} 
-              onStartQuiz={handleStartQuiz} 
-              onBackToHome={() => setActiveView('hanziHome')} 
-            />
-          </div>
+          <HanziVocabLearner 
+            character={learningParams.character}
+            onBackToHome={() => setActiveView('hanziHome')} 
+          />
         )}
         
         {/* 성어 학습 - IdiomLearningView로 바로 연결 */}
