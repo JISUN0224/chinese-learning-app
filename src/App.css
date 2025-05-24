@@ -65,7 +65,7 @@
 main {
   flex: 1;
   padding: 20px;
-  max-width: 1200px;
+  max-width: 1400px; /* 1200px → 1400px로 증가 */
   margin: 0 auto;
   width: 100%;
 }
@@ -182,4 +182,39 @@ main {
   .home-grid {
     grid-template-columns: 1fr;
   }
+}
+.vocab-character, 
+.vocab-character-answer,
+.vocab-example-chinese {
+  font-family: 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimSun', '宋体', 'Arial Unicode MS', sans-serif !important;
+}
+
+/* FlashCard.js의 병음 요소들 */
+.vocab-pinyin,
+.vocab-pinyin-answer {
+  font-family: 'Noto Sans', 'Arial', sans-serif !important;
+}
+
+/* VocabPreview.js의 미리보기 카드 요소들 */
+.preview-card h3,
+.preview-card .chinese {
+  font-family: 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimSun', '宋体', 'Arial Unicode MS', sans-serif !important;
+}
+
+.preview-card .pinyin {
+  font-family: 'Noto Sans', 'Arial', sans-serif !important;
+}
+
+.preview-card .meaning {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+}
+
+/* 모든 중국어 텍스트 (만약을 위한 포괄적 선택자) */
+*[class*="chinese"], *[class*="vocab-character"], *[class*="character"] {
+  font-family: 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimSun', '宋체', 'Arial Unicode MS', sans-serif !important;
+}
+
+/* 모든 병음 텍스트 */
+*[class*="pinyin"] {
+  font-family: 'Noto Sans', 'Arial', sans-serif !important;
 }

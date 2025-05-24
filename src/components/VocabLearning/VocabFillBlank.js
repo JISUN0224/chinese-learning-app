@@ -1,15 +1,12 @@
-import React, { useState, useRef } from 'react';
-import './ListeningQuiz.css';
+import React, { useState } from 'react';
+import './VocabFillBlank.css';
 
-function ListeningQuiz({ question, onAnswer }) {
+function VocabFillBlank({ question, onAnswer }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
   
   const handleOptionSelect = (option) => {
-    if (isAnswered) return; // 이미 답변을 제출한 경우 추가 선택 방지
-    
+    if (isAnswered) return;
     setSelectedOption(option);
   };
   
@@ -18,7 +15,6 @@ function ListeningQuiz({ question, onAnswer }) {
     
     setIsAnswered(true);
     
-    // 애니메이션을 위한 지연 후 다음 문제로 이동
     setTimeout(() => {
       onAnswer(selectedOption);
       setSelectedOption(null);
@@ -26,47 +22,22 @@ function ListeningQuiz({ question, onAnswer }) {
     }, 1000);
   };
   
-  const handlePlayAudio = () => {
-    if (!audioRef.current) return;
-    
-    if (isPlaying) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    } else {
-      audioRef.current.play();
-    }
-    
-    setIsPlaying(!isPlaying);
-  };
-  
-  // 오디오 재생이 끝나면 상태 업데이트
-  const handleAudioEnded = () => {
-    setIsPlaying(false);
-  };
-  
   return (
-    <div className="listening-quiz">
+    <div className="vocab-fill-blank">
       <h2 className="question-text">{question.questionText}</h2>
       
-      <div className="audio-player">
-        <button 
-          className={`play-button ${isPlaying ? 'playing' : ''}`}
-          onClick={handlePlayAudio}
-        >
-          {isPlaying ? '일시정지' : '듣기'}
-        </button>
+      <div className="sentence-context">
+        <div className="chinese-sentence">
+          {question.context.before}
+          <span className="blank">______</span>
+          {question.context.after}
+        </div>
         
-        {question.audioUrl && (
-          <audio 
-            ref={audioRef}
-            src={question.audioUrl}
-            onEnded={handleAudioEnded}
-          />
-        )}
-        
-        {!question.audioUrl && (
-          <div className="error-message">
-            오디오 파일을 불러올 수 없습니다.
+        {/* 한글 번역 표시 */}
+        {question.koreanTranslation && (
+          <div className="korean-translation">
+            <span className="translation-label">의미:</span>
+            <span className="translation-text">{question.koreanTranslation}</span>
           </div>
         )}
       </div>
@@ -108,4 +79,4 @@ function ListeningQuiz({ question, onAnswer }) {
   );
 }
 
-export default ListeningQuiz;
+export default VocabFillBlank;

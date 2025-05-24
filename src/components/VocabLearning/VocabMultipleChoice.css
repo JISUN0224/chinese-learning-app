@@ -1,4 +1,4 @@
-.listening-quiz {
+.vocab-multiple-choice {
   padding: 20px;
   border-radius: 10px;
   background-color: white;
@@ -7,50 +7,8 @@
 
 .question-text {
   font-size: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   color: #333;
-}
-
-.audio-player {
-  margin: 20px 0;
-  text-align: center;
-}
-
-.play-button {
-  padding: 12px 30px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.play-button:hover {
-  background-color: #388E3C;
-  transform: scale(1.05);
-}
-
-.play-button.playing {
-  background-color: #F44336;
-}
-
-.play-button.playing:hover {
-  background-color: #D32F2F;
-}
-
-.error-message {
-  padding: 15px;
-  margin: 15px 0;
-  color: #f44336;
-  background-color: #ffebee;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 14px;
 }
 
 .options-container {
@@ -134,17 +92,12 @@
 
 /* 반응형 */
 @media (max-width: 576px) {
-  .listening-quiz {
+  .vocab-multiple-choice {
     padding: 15px;
   }
   
   .question-text {
     font-size: 18px;
-  }
-  
-  .play-button {
-    padding: 10px 25px;
-    font-size: 14px;
   }
   
   .option {

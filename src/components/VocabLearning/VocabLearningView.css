@@ -1,5 +1,5 @@
 .vocab-learning-view {
-  max-width: 800px;
+  max-width: 900px; /* 800px → 900px로 증가 */
   margin: 0 auto;
   padding: 20px;
 }
@@ -14,7 +14,7 @@
 }
 
 .learning-info h2 {
-  margin: 0 0 5px 0;
+  margin: 0 0 10px 0;
   font-size: 24px;
   color: #333;
 }
@@ -23,6 +23,49 @@
   margin: 0;
   font-size: 14px;
   color: #666;
+}
+
+/* 배치 선택 컨트롤 */
+.batch-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.batch-text {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.batch-selector {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 60px;
+}
+
+.batch-selector:hover {
+  border-color: #4a90e2;
+}
+
+.batch-selector:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.batch-total {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
 }
 
 .back-button {
@@ -140,6 +183,18 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+  
+  .learning-info {
+    width: 100%;
+  }
+  
+  .batch-controls {
+    justify-content: flex-start;
+  }
+  
+  .batch-selector {
+    min-width: 50px;
   }
   
   .action-buttons {

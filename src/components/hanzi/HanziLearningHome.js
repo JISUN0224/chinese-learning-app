@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './HanziLearningHome.css';
 
-function HanziLearningHome({ onSelectCategory, onBackToHome }) {
-  const [loading, setLoading] = useState(false);
+function HanziLearningHome({ onSelectCategory }) {
   const [hanziData, setHanziData] = useState([]);
   const [error, setError] = useState(null);
 
@@ -47,9 +46,6 @@ function HanziLearningHome({ onSelectCategory, onBackToHome }) {
   return (
     <div className="hanzi-learning-home">
       <div className="home-header">
-        <button className="back-button" onClick={onBackToHome}>
-          ← 홈으로 돌아가기
-        </button>
         <h2 className="page-title">🈷️ 한자 학습</h2>
       </div>
 

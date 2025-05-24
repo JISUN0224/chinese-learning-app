@@ -1,4 +1,4 @@
-.context-quiz {
+.vocab-listening {
   padding: 20px;
   border-radius: 10px;
   background-color: white;
@@ -11,24 +11,101 @@
   color: #333;
 }
 
-.context-container {
-  margin: 15px 0;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  border-left: 4px solid #4a90e2;
+.audio-player {
+  margin: 20px 0;
+  text-align: center;
 }
 
-.context-chinese {
-  font-size: 18px;
-  margin-bottom: 8px;
-  color: #333;
+.play-button {
+  padding: 12px 30px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.context-translation {
-  font-size: 14px;
+.play-button:hover {
+  background-color: #388E3C;
+  transform: scale(1.05);
+}
+
+.play-button.playing {
+  background-color: #F44336;
+}
+
+.play-button.playing:hover {
+  background-color: #D32F2F;
+}
+
+.play-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.audio-info {
+  margin-top: 15px;
+}
+
+.audio-info p {
+  margin: 5px 0;
   color: #666;
-  font-style: italic;
+  font-size: 14px;
+}
+
+/* 문장 듣기 전용 스타일 */
+.sentence-display {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+}
+
+.chinese-text {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #333;
+  line-height: 1.5;
+}
+
+.korean-translation {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #e8f4fd;
+  border-radius: 6px;
+  border: 1px solid #b3d9ff;
+  text-align: center;
+}
+
+.translation-label {
+  font-size: 12px;
+  color: #666;
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+.translation-text {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.error-message {
+  padding: 15px;
+  margin: 15px 0;
+  color: #f44336;
+  background-color: #ffebee;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 14px;
 }
 
 .options-container {
@@ -110,19 +187,9 @@
   cursor: not-allowed;
 }
 
-.error-message {
-  padding: 15px;
-  margin: 15px 0;
-  color: #f44336;
-  background-color: #ffebee;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 14px;
-}
-
 /* 반응형 */
 @media (max-width: 576px) {
-  .context-quiz {
+  .vocab-listening {
     padding: 15px;
   }
   
@@ -130,8 +197,9 @@
     font-size: 18px;
   }
   
-  .context-chinese {
-    font-size: 16px;
+  .play-button {
+    padding: 10px 25px;
+    font-size: 14px;
   }
   
   .option {

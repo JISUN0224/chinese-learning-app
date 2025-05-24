@@ -1,261 +1,374 @@
-/* 성어 플래시카드 스타일 - 수정된 버전 */
-.flashcard-wrapper {
-  max-width: 400px;
-  margin: 0 auto;
-  perspective: 1000px;
+.idiom-flashcard-container {
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  padding: 0 20px !important;
+  box-sizing: border-box !important;
 }
 
-.flashcard {
-  width: 100%;
-  height: 300px; /* 높이를 좀 더 늘려서 내용이 잘 보이도록 */
+/* 학습 모드 선택 버튼 */
+.study-mode-selector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.mode-button {
+  padding: 8px 16px;
+  border: 2px solid #4a90e2;
+  background-color: white;
+  color: #4a90e2;
+  border-radius: 20px;
   cursor: pointer;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  margin-bottom: 15px;
+  font-size: 14px !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.flashcard.flipped {
+.mode-button:hover {
+  background-color: #f0f6ff;
+}
+
+.mode-button.active {
+  background-color: #4a90e2;
+  color: white;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.idiom-flashcard {
+  perspective: 1000px;
+  margin: 0 auto 100px auto;
+  width: 100%;
+  position: relative;
+}
+
+.idiom-flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  text-align: center;
+  transition: transform 0.6s ease-in-out;
+  transform-style: preserve-3d;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.idiom-flashcard.flipped .idiom-flashcard-inner {
   transform: rotateY(180deg);
 }
 
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-}
-
-.card-front, .card-back {
+.idiom-flashcard-front, 
+.idiom-flashcard-back {
   position: absolute;
   width: 100%;
   height: 100%;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding: 20px;
+  padding: 30px;
   box-sizing: border-box;
-  border-radius: 15px;
+  pointer-events: auto;
 }
 
-.card-front {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+.idiom-flashcard-front {
+  background-color: white;
+  color: #333;
+  border: 2px solid #e0e0e0;
+  z-index: 2;
 }
 
-.card-back {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  color: white;
+.idiom-flashcard-back {
+  background-color: #f9f9f9;
+  color: #333;
   transform: rotateY(180deg);
+  border: 2px solid #e0e0e0;
+  z-index: 1;
 }
 
-/* 앞면 스타일 */
-.idiom-word {
-  font-size: 32px;
-  margin: 0 0 10px 0;
+.idiom-card-content {
+  width: 100% !important;
+  max-width: 700px !important;
+  margin: 0 auto !important;
+  padding: 20px !important;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box !important;
+}
+
+/* 중국어 표시 (중국어→한국어 모드의 앞면) */
+.idiom-character-display {
   text-align: center;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+
+.idiom-character {
+  font-size: 80px;
+  line-height: 1.1;
+  margin-bottom: 15px;
+  color: #333;
+  font-family: 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimSun', '宋体', 'Arial Unicode MS', sans-serif;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 .idiom-pinyin {
-  font-size: 18px;
-  margin: 0 0 15px 0;
-  text-align: center;
-  opacity: 0.9;
+  font-size: 24px;
+  color: #4a90e2;
+  margin-bottom: 30px;
+  font-family: 'Noto Sans', 'Arial', sans-serif;
+  pointer-events: none;
 }
 
-/* 뒷면 스타일 */
-.back-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* 한국어 의미 표시 (한국어→중국어 모드의 앞면) */
+.idiom-meaning-display {
   text-align: center;
-  flex: 1;
-  justify-content: center;
+  pointer-events: none;
   width: 100%;
 }
 
-.idiom-meaning {
+.idiom-meaning-title {
   font-size: 18px;
-  text-align: center;
-  margin: 0 0 15px 0;
-  line-height: 1.5;
+  color: #666;
+  margin-bottom: 20px;
   font-weight: 500;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.idiom-meanings {
+  margin-bottom: 30px;
+}
+
+.idiom-meaning-item {
+  font-size: 24px;
+  color: #2c5282;
+  margin-bottom: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* 뒷면 답안 표시 */
+.idiom-answer-display {
+  text-align: center;
+  pointer-events: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  padding-top: 10px !important;
+}
+
+.idiom-answer-title {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* 한국어 답안 (중국어→한국어 모드의 뒷면) */
+.idiom-translations {
+  margin-bottom: 25px;
+  width: 100%;
+  text-align: center;
+}
+
+.idiom-translation-item {
+  font-size: 22px;
+  color: #2c5282;
+  margin-bottom: 10px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* 중국어 답안 (한국어→중국어 모드의 뒷면) */
+.idiom-chinese-answer {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.idiom-character-answer {
+  font-size: 65px;
+  color: #333;
+  margin-bottom: 10px;
+  font-family: 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimSun', '宋体', 'Arial Unicode MS', sans-serif;
+  white-space: nowrap;
+}
+
+.idiom-pinyin-answer {
+  font-size: 22px;
+  color: #4a90e2;
+  font-family: 'Noto Sans', 'Arial', sans-serif;
+}
+
+/* 카테고리 정보 */
+.idiom-category-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 15px 0;
 }
 
 .category-tag {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(74, 144, 226, 0.1);
+  color: #4a90e2;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
-  margin: 8px 4px;
   display: inline-block;
 }
 
 .sub-category-tag {
-  background-color: rgba(76, 175, 80, 0.8);
+  background-color: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
-  margin: 8px 4px;
   display: inline-block;
-  color: white;
 }
 
-.idiom-category-info {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 8px 0;
-}
-
-.back-idiom-info {
-  margin-top: 10px;
-  opacity: 0.8;
-}
-
-.back-chengyu {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 5px 0;
-}
-
-.back-pinyin {
+/* 안내 텍스트 */
+.idiom-flip-instruction {
+  color: #999;
   font-size: 14px;
-  margin: 5px 0;
-}
-
-.card-hint {
-  position: absolute;
-  bottom: 50px;
-  font-size: 12px;
-  opacity: 0.7;
+  pointer-events: none;
+  margin-top: 20px !important;
+  padding-bottom: 10px;
   text-align: center;
 }
 
-.audio-buttons {
-  position: absolute;
-  bottom: 15px;
-  display: flex;
-  gap: 8px;
-}
-
-.audio-button {
-  padding: 6px 12px;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s;
-  backdrop-filter: blur(10px);
-}
-
-.audio-button:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.audio-button.slow {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-.card-navigation {
+/* 네비게이션 버튼 */
+.idiom-navigation-buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
-  padding: 0 10px;
+  margin-top: 60px;
+  padding: 0 20px;
+  width: 100%;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
 }
 
-.nav-button {
-  padding: 10px 20px;
+.idiom-prev-button, .idiom-next-button {
+  padding: 12px 24px;
   background-color: #4a90e2;
   color: white;
   border: none;
-  border-radius: 25px;
+  border-radius: 6px;
+  font-size: 15px;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  pointer-events: auto;
   min-width: 80px;
-  box-shadow: 0 2px 10px rgba(74, 144, 226, 0.3);
 }
 
-.nav-button:hover:not(:disabled) {
+.idiom-next-button.complete {
+  background-color: #4CAF50;
+}
+
+.idiom-prev-button:hover, .idiom-next-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.idiom-prev-button.disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.idiom-card-counter {
+  font-size: 15px;
+  color: #666;
+  pointer-events: none;
+  background-color: #f8f8f8;
+  padding: 8px 16px;
+  border-radius: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+/* 오디오 버튼 스타일 */
+.idiom-audio-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+  pointer-events: auto;
+}
+
+.audio-btn {
+  padding: 8px 15px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.audio-btn:hover:not(:disabled) {
   background-color: #357abd;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+  transform: translateY(-1px);
 }
 
-.nav-button:disabled {
+.audio-btn:disabled {
   background-color: #ccc;
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
 }
 
-.card-indicator {
-  font-size: 14px;
-  color: #666;
-  background-color: #f5f5f5;
-  padding: 8px 16px;
-  border-radius: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+.audio-btn.playing {
+  background-color: #28a745;
 }
 
-.complete-section {
-  text-align: center;
-  margin-top: 15px;
+.audio-btn.slow {
+  background-color: #6c757d;
 }
 
-.complete-button {
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: all 0.2s;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+.audio-btn.slow:hover:not(:disabled) {
+  background-color: #545b62;
 }
 
-.complete-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-}
-
-/* 반응형 디자인 */
-@media (max-width: 480px) {
-  .flashcard-wrapper {
-    max-width: 350px;
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .idiom-flashcard-container {
+    max-width: 600px;
+    margin: 0 auto;
   }
   
-  .flashcard {
-    height: 280px;
+  .idiom-flashcard-inner {
+    height: 380px;
   }
   
-  .idiom-word {
-    font-size: 28px;
+  .idiom-character {
+    font-size: 65px;
   }
   
-  .idiom-pinyin {
-    font-size: 16px;
-  }
-  
-  .idiom-meaning {
-    font-size: 16px;
-  }
-  
-  .nav-button {
-    padding: 8px 15px;
-    font-size: 13px;
-    min-width: 70px;
+  .idiom-character-answer {
+    font-size: 55px;
   }
 }

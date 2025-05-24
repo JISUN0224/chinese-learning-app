@@ -1,6 +1,66 @@
 // 오디오 관련 서비스 함수들
 
-// 오디오 재생
+// TTS(Text-to-Speech) 음성 재생
+export const playChineseAudio = async (text, speed = 'normal') => {
+  if (!text) {
+    console.warn('재생할 텍스트가 없습니다.');
+    return;
+  }
+
+  try {
+    // Web Speech API 지원 확인
+    if (!('speechSynthesis' in window)) {
+      throw new Error('브라우저가 음성 합성을 지원하지 않습니다.');
+    }
+
+    // 진행 중인 음성 정지
+    window.speechSynthesis.cancel();
+
+    // 음성 합성 설정
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // 중국어 음성 설정
+    utterance.lang = 'zh-CN'; // 중국어 (간체)
+    
+    // 속도 설정
+    if (speed === 'slow') {
+      utterance.rate = 0.6; // 천천히
+    } else {
+      utterance.rate = 0.8; // 보통 속도
+    }
+    
+    utterance.pitch = 1; // 음조
+    utterance.volume = 1; // 음량
+
+    // 음성 재생
+    return new Promise((resolve, reject) => {
+      utterance.onend = () => {
+        console.log('음성 재생 완료:', text);
+        resolve();
+      };
+      
+      utterance.onerror = (error) => {
+        console.error('음성 재생 실패:', error);
+        reject(error);
+      };
+      
+      window.speechSynthesis.speak(utterance);
+    });
+    
+  } catch (error) {
+    console.error('중국어 음성 재생 실패:', error);
+    throw error;
+  }
+};
+
+// 음성 재생 정지
+export const stopAudio = () => {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+};
+
+// 기존 오디오 재생 (파일 기반)
 export const playAudio = async (audioElement, audioUrl) => {
   if (!audioElement || !audioUrl) return;
   

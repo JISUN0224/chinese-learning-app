@@ -22,7 +22,7 @@ body {
 }
 
 #root {
-  max-width: 1200px;
+  max-width: 1400px; /* 1200px → 1400px로 증가 */
   margin: 0 auto;
   padding: 10px;
 }

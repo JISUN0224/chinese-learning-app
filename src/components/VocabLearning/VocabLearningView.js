@@ -8,7 +8,7 @@ import { loadVocabularyByLevelOrTheme, loadVocabularyByHanzi } from '../../servi
 // 한 번에 학습할 단어 수
 const WORDS_PER_BATCH = 6;
 
-function VocabLearningView({ params, onStartQuiz, onBackToHome }) {
+function VocabLearningView({ params, onStartQuiz, onBackToHome, initialBatchIndex = 0 }) {
   const [allVocabulary, setAllVocabulary] = useState([]);
   const [currentBatch, setCurrentBatch] = useState([]);
   const [batchIndex, setBatchIndex] = useState(0);
@@ -57,9 +57,21 @@ function VocabLearningView({ params, onStartQuiz, onBackToHome }) {
         
         setAllVocabulary(data);
         
-        // 첫 번째 배치 설정
-        const firstBatch = data.slice(0, WORDS_PER_BATCH);
-        setCurrentBatch(firstBatch);
+        // 초기 배치 인덱스 설정 (이어서 학습하기에서 오는 경우)
+        const targetBatchIndex = initialBatchIndex;
+        setBatchIndex(targetBatchIndex);
+        
+        // 해당 배치 설정
+        const startIndex = targetBatchIndex * WORDS_PER_BATCH;
+        const targetBatch = data.slice(startIndex, startIndex + WORDS_PER_BATCH);
+        
+        if (targetBatch.length === 0) {
+          // 모든 배치를 완료한 경우 첫 번째 배치로 돌아가기
+          setCurrentBatch(data.slice(0, WORDS_PER_BATCH));
+          setBatchIndex(0);
+        } else {
+          setCurrentBatch(targetBatch);
+        }
         
         setIsLoading(false);
       } catch (error) {
@@ -70,7 +82,7 @@ function VocabLearningView({ params, onStartQuiz, onBackToHome }) {
     };
     
     fetchVocabulary();
-  }, [params]);
+  }, [params, initialBatchIndex]); // initialBatchIndex 의존성 추가
   
   // 다음 카드로 이동
   const goToNextCard = () => {
@@ -100,20 +112,34 @@ function VocabLearningView({ params, onStartQuiz, onBackToHome }) {
       console.error("Cannot start quiz: No vocabulary data");
       return;
     }
-    onStartQuiz(currentBatch);
+    onStartQuiz(currentBatch, batchIndex); // 배치 인덱스도 함께 전달
   };
   
-  // 다음 배치로 이동
-  const goToNextBatch = () => {
-    const nextBatchIndex = batchIndex + 1;
-    const startIndex = nextBatchIndex * WORDS_PER_BATCH;
+  // 특정 배치로 이동
+  const goToBatch = (targetBatchIndex) => {
+    const startIndex = targetBatchIndex * WORDS_PER_BATCH;
     
     if (startIndex < allVocabulary.length) {
-      const nextBatch = allVocabulary.slice(startIndex, startIndex + WORDS_PER_BATCH);
-      setCurrentBatch(nextBatch);
-      setBatchIndex(nextBatchIndex);
+      const targetBatch = allVocabulary.slice(startIndex, startIndex + WORDS_PER_BATCH);
+      setCurrentBatch(targetBatch);
+      setBatchIndex(targetBatchIndex);
       setCurrentCardIndex(0);
-      setViewMode('preview'); // 다음 배치의 미리보기로 돌아갑니다
+      setViewMode('preview');
+    }
+  };
+  
+  // 배치 드롭다운 변경 핸들러
+  const handleBatchChange = (e) => {
+    const selectedBatch = parseInt(e.target.value);
+    goToBatch(selectedBatch);
+  };
+  
+  // 다음 배치로 이동 (기존 함수 유지)
+  const goToNextBatch = () => {
+    const nextBatchIndex = batchIndex + 1;
+    
+    if (nextBatchIndex < totalBatches) {
+      goToBatch(nextBatchIndex);
     } else {
       // 모든 단어 학습 완료
       alert("모든 단어를 학습했습니다!");
@@ -165,7 +191,21 @@ function VocabLearningView({ params, onStartQuiz, onBackToHome }) {
         
         <div className="learning-info">
           <h2>{getLearningTitle()}</h2>
-          <p>배치 {batchIndex + 1}/{totalBatches}</p>
+          <div className="batch-controls">
+            <span className="batch-text">배치</span>
+            <select 
+              className="batch-selector"
+              value={batchIndex}
+              onChange={handleBatchChange}
+            >
+              {Array.from({ length: totalBatches }, (_, i) => (
+                <option key={i} value={i}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
+            <span className="batch-total">/ {totalBatches}</span>
+          </div>
         </div>
       </div>
       
@@ -189,6 +229,7 @@ function VocabLearningView({ params, onStartQuiz, onBackToHome }) {
           
           <div className="flashcard-container">
             <FlashCard 
+              key={currentCardIndex}
               vocab={currentCard} 
               onNext={goToNextCard}
               onPrev={goToPrevCard}

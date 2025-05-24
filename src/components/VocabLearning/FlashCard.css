@@ -1,204 +1,467 @@
-.flashcard {
-  perspective: 1000px;
-  margin: 20px auto 80px auto;
-  width: 100%;
-  max-width: 400px;
+.vocab-flashcard-container {
+  max-width: 800px !important; /* 700px → 800px로 더 넓게, !important 추가 */
+  margin: 0 auto !important;
+  width: 100% !important;
+  padding: 0 20px !important; /* 좌우 패딩 추가 */
+  box-sizing: border-box !important;
 }
 
-.flashcard-inner {
+/* 학습 모드 선택 버튼 */
+.study-mode-selector {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.mode-button {
+  padding: 8px 16px;
+  border: 2px solid #4a90e2;
+  background-color: white;
+  color: #4a90e2;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.mode-button:hover {
+  background-color: #f0f6ff;
+}
+
+.mode-button.active {
+  background-color: #4a90e2;
+  color: white;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.vocab-flashcard {
+  perspective: 1000px;
+  margin: 0 auto 100px auto;
+  width: 100%;
+  position: relative;
+}
+
+.vocab-flashcard-inner {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 420px; /* 320px → 420px로 대폭 증가 */
   text-align: center;
-  transition: transform 0.6s;
+  transition: transform 0.6s ease-in-out;
   transform-style: preserve-3d;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  pointer-events: auto;
 }
 
-.flashcard.flipped .flashcard-inner {
+.vocab-flashcard.flipped .vocab-flashcard-inner {
   transform: rotateY(180deg);
 }
 
-.flashcard-front, .flashcard-back {
+.vocab-flashcard-front, 
+.vocab-flashcard-back {
   position: absolute;
   width: 100%;
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: hidden; /* 스크롤 완전 제거 */
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* center → flex-start로 변경 */
   align-items: center;
-  padding: 20px;
+  padding: 20px; /* 25px → 30px로 증가 */
+  box-sizing: border-box;
+  pointer-events: auto;
 }
 
-.flashcard-front {
-  background-color: white;
+.vocab-flashcard-front {
+  background-color: rgb(169, 221, 236);
   color: #333;
+  border: 2px solid #e0e0e0;
+  z-index: 2;
 }
 
-.flashcard-back {
-  background-color: #f9f9f9;
+.vocab-flashcard-back {
+  background-color: #f7dfdf;
   color: #333;
   transform: rotateY(180deg);
-  overflow-y: auto;
+  border: 2px solid #e0e0e0;
+  z-index: 1;
 }
 
-.card-content {
-  width: 100%;
-  max-width: 320px;
-  margin: 0 auto;
-  padding: 10px;
+.vocab-card-content {
+  width: 100% !important;
+  max-width: 700px !important; /* 600px → 700px로 더 넓게 */
+  margin: 0 auto !important;
+  padding: 20px !important; /* 15px → 20px로 증가 */
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* center → flex-start로 변경 */
+  align-items: center;
+  height: 100%; /* min-height → height로 변경 */
+  box-sizing: border-box !important;
 }
 
-/* 앞면 스타일 */
-.character-display {
-  margin-bottom: 20px;
+/* 중국어 표시 (중국어→한국어 모드의 앞면) */
+.vocab-character-display {
+  text-align: center;
+  pointer-events: none;
 }
 
-.character {
-  font-size: 80px;
+.vocab-character {
+  font-size: 80px; /* 적당한 크기로 */
   line-height: 1.1;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: #333;
+  font-family: 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimSun', '宋体', 'Arial Unicode MS', sans-serif;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
-.pinyin {
+.vocab-pinyin {
   font-size: 24px;
   color: #4a90e2;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
+  font-family: 'Noto Sans', 'Arial', sans-serif;
+  pointer-events: none;
 }
 
-.flip-instruction {
-  color: #999;
-  font-size: 14px;
-  margin-top: 20px;
+/* 한국어 의미 표시 (한국어→중국어 모드의 앞면) */
+.vocab-meaning-display {
+  text-align: center;
+  pointer-events: none;
+  width: 100%;
 }
 
-/* 뒷면 스타일 */
-.word-info {
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-.character-small {
-  font-size: 30px;
-  margin-bottom: 5px;
-}
-
-.pinyin-small {
+.vocab-meaning-title {
   font-size: 18px;
-  color: #4a90e2;
-  margin-bottom: 15px;
-}
-
-.translations {
+  color: #666;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 
-.translations ul {
-  padding-left: 20px;
-  margin: 0;
+.vocab-meanings {
+  margin-bottom: 30px;
 }
 
-.translations li {
-  margin-bottom: 8px;
+.vocab-meaning-item {
+  font-size: 24px;
+  color: #2c5282;
+  margin-bottom: 15px;
+  font-weight: 500;
   line-height: 1.4;
-  font-size: 16px;
 }
 
-.examples {
-  text-align: left;
-  border-top: 1px solid #eee;
-  padding-top: 15px;
+/* 뒷면 답안 표시 */
+.vocab-answer-display {
+  text-align: center;
+  pointer-events: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* center → flex-start로 변경 */
+  align-items: center;
+  height: 100%; /* 전체 높이 사용 */
+  padding-top: 30px; /* 상단 여백 추가 */
 }
 
-.examples h4 {
-  margin: 0 0 10px 0;
+.vocab-answer-title {
   font-size: 16px;
   color: #666;
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
-.example {
-  margin-bottom: 15px;
-  background-color: #f0f0f0;
-  padding: 10px;
-  border-radius: 6px;
+/* 한국어 답안 (중국어→한국어 모드의 뒷면) */
+.vocab-translations {
+  margin-bottom: 25px;
+  width: 100%;
+  text-align: center;
 }
 
-.example-chinese {
-  font-size: 16px;
-  margin: 0 0 5px 0;
+.vocab-translation-item {
+  font-size: 22px;
+  color: #2c5282;
+  margin-bottom: 10px;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
-.example-translation {
+/* 중국어 답안 (한국어→중국어 모드의 뒷면) */
+.vocab-chinese-answer {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.vocab-character-answer {
+  font-size: 65px;
+  color: #333;
+  margin-bottom: 10px;
+  font-family: 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimSun', '宋体', 'Arial Unicode MS', sans-serif;
+  white-space: nowrap;
+}
+
+.vocab-pinyin-answer {
+  font-size: 22px;
+  color: #4a90e2;
+  font-family: 'Noto Sans', 'Arial', sans-serif;
+}
+
+/* 예문 영역 */
+.vocab-examples {
+  text-align: center;
+  border-top: 1px solid #ddd;
+  padding: 15px !important;
+  pointer-events: none;
+  width: 100% !important;
+  max-width: 650px !important; /* 예문 영역도 더 넓게 */
+  margin: 10px auto 0 auto !important; /* 중앙 정렬 */
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-sizing: border-box !important;
+}
+
+.vocab-examples h4 {
+  margin: 0 0 12px 0;
   font-size: 14px;
   color: #666;
-  margin: 0;
-  font-style: italic;
+  pointer-events: none;
 }
 
-.no-data {
-  color: #999;
+.vocab-example {
+  margin-bottom: 15px;
+  background-color: white;
+  padding: 12px 15px !important; /* 10px 12px → 12px 15px로 증가 */
+  border-radius: 6px;
+  pointer-events: none;
+  line-height: 1.5 !important; /* 1.4 → 1.5로 증가 */
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  word-wrap: break-word !important; /* 긴 문장 줄바꿈 */
+  overflow-wrap: break-word !important;
+}
+
+.vocab-example-chinese {
+  font-size: 14px;
+  margin: 0 0 5px 0;
+  font-family: 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', '微软雅黑', 'SimSun', '宋체', 'Arial Unicode MS', sans-serif;
+  pointer-events: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.vocab-example-translation {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
   font-style: italic;
-  margin: 10px 0;
+  pointer-events: none;
+}
+
+/* 안내 텍스트 */
+.vocab-flip-instruction {
+  color: #999;
+  font-size: 14px;
+  pointer-events: none;
+  margin-top: 20px !important; /* 자동으로 아래쪽에 배치 */
+  padding-bottom: 10px;
+  text-align: center;
 }
 
 /* 네비게이션 버튼 */
-.navigation-buttons {
+.vocab-navigation-buttons {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 60px;   /* 원래는 20px → 충분히 띄워줌 */
+  margin-top: 60px;
   padding: 0 20px;
   width: 100%;
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
 }
 
-
-.prev-button, .next-button {
-  padding: 10px 20px;
+.vocab-prev-button, .vocab-next-button {
+  padding: 12px 24px;
   background-color: #4a90e2;
   color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 14px;
+  border-radius: 6px;
+  font-size: 15px;
   cursor: pointer;
   transition: all 0.2s ease;
+  pointer-events: auto;
+  min-width: 80px;
 }
 
-.next-button.complete {
+.vocab-next-button.complete {
   background-color: #4CAF50;
 }
 
-.prev-button:hover, .next-button:hover {
+.vocab-prev-button:hover, .vocab-next-button:hover {
   opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-.prev-button.disabled {
+.vocab-prev-button.disabled {
   background-color: #e0e0e0;
   cursor: not-allowed;
 }
 
-.card-counter {
-  font-size: 14px;
+.vocab-card-counter {
+  font-size: 15px;
   color: #666;
+  pointer-events: none;
+  background-color: #f8f8f8;
+  padding: 8px 16px;
+  border-radius: 15px;
+  border: 1px solid #e0e0e0;
 }
 
 /* 반응형 스타일 */
-@media (max-width: 576px) {
-  .flashcard-inner {
-    height: 250px;
+@media (max-width: 768px) {
+  .vocab-flashcard-container {
+    max-width: 600px; /* 650px → 600px로 조정 */
+    margin: 0 auto;
   }
   
-  .character {
-    font-size: 60px;
+  .vocab-flashcard-inner {
+    height: 380px; /* 320px → 380px로 증가 */
   }
   
-  .pinyin {
-    font-size: 20px;
+  .vocab-character {
+    font-size: 65px;
   }
+  
+  .vocab-character-answer {
+    font-size: 55px;
+  }
+}
+
+/* 예문 텍스트 스타일 강화 */
+.vocab-example-chinese {
+  font-size: 15px !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  line-height: 1.6 !important;
+}
+
+.vocab-example-translation {
+  font-size: 14px !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  line-height: 1.5 !important;
+}
+
+/* 오디오 버튼 스타일 */
+.vocab-audio-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+  pointer-events: auto;
+}
+
+.audio-btn {
+  padding: 8px 15px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.audio-btn:hover:not(:disabled) {
+  background-color: #357abd;
+  transform: translateY(-1px);
+}
+
+.audio-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.audio-btn.playing {
+  background-color: #28a745;
+}
+
+.audio-btn.slow {
+  background-color: #6c757d;
+}
+
+.audio-btn.slow:hover:not(:disabled) {
+  background-color: #545b62;
+}
+
+/* 예문 컴테이너 스타일 */
+.example-content {
+  flex: 1;
+}
+
+.vocab-example {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  margin-bottom: 10px;
+  background-color: white;
+  padding: 12px 15px !important;
+  border-radius: 6px;
+  pointer-events: none;
+  line-height: 1.5 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+.example-audio-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.example-audio-btn:hover:not(:disabled) {
+  background-color: #357abd;
+  transform: scale(1.1);
+}
+
+.example-audio-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
 }

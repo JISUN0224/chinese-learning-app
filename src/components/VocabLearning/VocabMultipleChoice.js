@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './MultipleChoice.css';
+import './VocabMultipleChoice.css';
 
-function MultipleChoice({ question, onAnswer }) {
+function VocabMultipleChoice({ question, onAnswer }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isAnswered, setIsAnswered] = useState(false);
   
@@ -25,7 +25,7 @@ function MultipleChoice({ question, onAnswer }) {
   };
   
   return (
-    <div className="multiple-choice">
+    <div className="vocab-multiple-choice">
       <h2 className="question-text">{question.questionText}</h2>
       
       <div className="options-container">
@@ -65,4 +65,4 @@ function MultipleChoice({ question, onAnswer }) {
   );
 }
 
-export default MultipleChoice;
+export default VocabMultipleChoice;

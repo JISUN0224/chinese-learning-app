@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import HomeScreen from './components/Home/HomeScreen';
 import HanziLearningHome from './components/hanzi/HanziLearningHome';
 import HanziSubCategoryView from './components/hanzi/HanziSubCategoryView';
 import HanziCategoryView from './components/hanzi/HanziCategoryView';
@@ -8,8 +7,8 @@ import HanziLearner from './components/hanzi/HanziLearner';
 import VocabLearningHome from './components/VocabLearning/VocabLearningHome';
 import VocabLearningView from './components/VocabLearning/VocabLearningView';
 import HanziVocabLearner from './components/VocabLearning/HanziVocabLearner';
+import VocabQuiz from './components/VocabLearning/VocabQuiz';
 import IdiomLearningView from './components/IdiomLearning/IdiomLearningView';
-import QuizView from './components/Quiz/QuizView';
 
 function App() {
   const [activeView, setActiveView] = useState('hanziHome'); // 기본을 한자학습으로 변경
@@ -17,11 +16,12 @@ function App() {
   const [quizParams, setQuizParams] = useState(null);
   const [hanziCategoryData, setHanziCategoryData] = useState(null);
   const [hanziSubCategoryData, setHanziSubCategoryData] = useState(null);
+  const [currentBatchIndex, setCurrentBatchIndex] = useState(0); // 배치 인덱스 추가
 
   // 페이지 새로고침 시 현재 뷰를 유지하기 위한 localStorage 사용
   useEffect(() => {
     const savedView = localStorage.getItem('currentView');
-    if (savedView) {
+    if (savedView && savedView !== 'home') {
       setActiveView(savedView);
     }
   }, []);
@@ -64,33 +64,25 @@ function App() {
   };
 
   // 퀴즈 시작
-  const handleStartQuiz = (vocabList) => {
+  const handleStartQuiz = (vocabList, batchIndex = 0) => {
+    setCurrentBatchIndex(batchIndex); // 현재 배치 인덱스 저장
     setQuizParams({
       vocabList,
-      type: learningParams?.type || 'vocabulary'
+      type: learningParams?.type || 'vocabulary',
+      batchIndex: batchIndex
     });
     setActiveView('quiz');
-  };
-
-  // 홈으로 돌아가기
-  const goToHome = () => {
-    setActiveView('home');
-    setLearningParams(null);
-    setQuizParams(null);
-    setHanziCategoryData(null);
-    setHanziSubCategoryData(null);
   };
   
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="main-header" onClick={goToHome}>중국어 학습 플랫폼</h1>
+        <h1 className="main-header" onClick={() => setActiveView('hanziHome')}>중국어 학습 플랫폼</h1>
       </header>
       
       <div className="navigation-menu">
         <button 
           className={
-            activeView === 'home' || 
             activeView === 'hanzi' || 
             activeView === 'hanziHome' || 
             activeView === 'hanziSubCategory' || 
@@ -114,17 +106,9 @@ function App() {
       </div>
       
       <main>
-        {activeView === 'home' && (
-          <HomeScreen 
-            onStartLearning={handleSelectLearningType}
-            onStartIdiomLearning={(category) => handleSelectLearningType({ type: 'idiom', category })} 
-          />
-        )}
-        
         {activeView === 'hanziHome' && (
           <HanziLearningHome 
             onSelectCategory={handleSelectHanziCategory}
-            onBackToHome={goToHome}
           />
         )}
         
@@ -152,7 +136,6 @@ function App() {
         {activeView === 'vocabLearningHome' && (
           <VocabLearningHome 
             onSelectLearningType={handleSelectLearningType}
-            onBackToHome={goToHome}
           />
         )}
         
@@ -160,7 +143,8 @@ function App() {
           <VocabLearningView 
             params={learningParams} 
             onStartQuiz={handleStartQuiz} 
-            onBackToHome={() => setActiveView('vocabLearningHome')} 
+            onBackToHome={() => setActiveView('vocabLearningHome')}
+            initialBatchIndex={currentBatchIndex} // 현재 배치 인덱스 전달
           />
         )}
         
@@ -180,17 +164,27 @@ function App() {
         )}
         
         {activeView === 'quiz' && quizParams && (
-          <QuizView 
-            vocabList={quizParams.vocabList}
-            quizType={quizParams.type}
-            onFinish={() => {
-              // 퀴즈를 완료한 후 돌아갈 곳 결정
+          <VocabQuiz 
+            vocabularyData={quizParams.vocabList}
+            onContinue={() => {
+              // 이어서 학습하기: 다음 배치로 이동
+              setCurrentBatchIndex(0); // 첫 번째 배치로 리셋
               if (quizParams.type === 'vocabulary' || quizParams.type === 'hsk' || quizParams.type === 'theme') {
                 setActiveView('vocabLearning');
               } else if (quizParams.type === 'idiom') {
-                setActiveView('vocabLearningHome'); // 성어도 어휘 학습 홈으로
+                setActiveView('idiomLearning');
               } else {
-                goToHome();
+                setActiveView('hanziHome');
+              }
+            }}
+            onFinish={() => {
+              // 학습 메뉴로 돌아가기
+              if (quizParams.type === 'vocabulary' || quizParams.type === 'hsk' || quizParams.type === 'theme') {
+                setActiveView('vocabLearning');
+              } else if (quizParams.type === 'idiom') {
+                setActiveView('vocabLearningHome');
+              } else {
+                setActiveView('hanziHome');
               }
             }} 
           />

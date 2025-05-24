@@ -1,4 +1,4 @@
-.fill-in-blank {
+.vocab-fill-blank {
   padding: 20px;
   border-radius: 10px;
   background-color: white;
@@ -13,22 +13,53 @@
 
 .sentence-context {
   margin: 20px 0;
-  font-size: 18px;
-  line-height: 1.5;
-  padding: 15px;
+  padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
   border-left: 4px solid #4a90e2;
 }
 
+.chinese-sentence {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #333;
+}
+
+/* 한글 번역 스타일 */
+.korean-translation {
+  margin-top: 15px;
+  padding: 12px;
+  background-color: #e8f4fd;
+  border-radius: 6px;
+  border: 1px solid #b3d9ff;
+  text-align: center;
+}
+
+.translation-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.translation-text {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
 .blank {
   display: inline-block;
   min-width: 80px;
-  padding: 0 5px;
-  border-bottom: 2px solid #4a90e2;
+  padding: 0 8px;
+  border-bottom: 3px solid #4a90e2;
   margin: 0 5px;
   font-weight: bold;
   color: #4a90e2;
+  background-color: rgba(74, 144, 226, 0.1);
+  border-radius: 3px 3px 0 0;
 }
 
 .input-container {
@@ -114,7 +145,7 @@
 
 /* 반응형 */
 @media (max-width: 576px) {
-  .fill-in-blank {
+  .vocab-fill-blank {
     padding: 15px;
   }
   

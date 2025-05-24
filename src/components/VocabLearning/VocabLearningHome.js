@@ -3,7 +3,7 @@ import './VocabLearningHome.css';
 import { loadVocabularyLevels, loadVocabularyThemes } from '../../services/vocabularyService';
 import { getIdiomCategories } from '../../services/idiomService';
 
-function VocabLearningHome({ onSelectLearningType, onBackToHome, onStartQuiz }) {
+function VocabLearningHome({ onSelectLearningType, onStartQuiz }) {
   const [levels, setLevels] = useState([]);
   const [themes, setThemes] = useState([]);
   const [idiomCategories, setIdiomCategories] = useState([]);

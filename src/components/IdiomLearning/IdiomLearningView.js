@@ -162,25 +162,36 @@ function IdiomLearningView({ selectedCategory, onBackToHome }) {
     }
   };
   
-  // 다음 배치로 이동
-  const goToNextBatch = () => {
-    const nextBatchIndex = batchIndex + 1;
-    const startIndex = nextBatchIndex * IDIOMS_PER_BATCH;
+  // 특정 배치로 이동
+  const goToBatch = (targetBatchIndex) => {
+    const startIndex = targetBatchIndex * IDIOMS_PER_BATCH;
     
     if (startIndex < filteredIdioms.length) {
-      const nextBatch = filteredIdioms.slice(startIndex, startIndex + IDIOMS_PER_BATCH);
-      setCurrentBatch(nextBatch);
-      setBatchIndex(nextBatchIndex);
+      const targetBatch = filteredIdioms.slice(startIndex, startIndex + IDIOMS_PER_BATCH);
+      setCurrentBatch(targetBatch);
+      setBatchIndex(targetBatchIndex);
       setCurrentCardIndex(0);
       setViewMode('learning');
+    }
+  };
+  
+  // 배치 드롭다운 변경 핸들러
+  const handleBatchChange = (e) => {
+    const selectedBatch = parseInt(e.target.value);
+    goToBatch(selectedBatch);
+  };
+  
+  // 다음 배치로 이동 (기존 함수 유지)
+  const goToNextBatch = () => {
+    const nextBatchIndex = batchIndex + 1;
+    const totalBatches = Math.ceil(filteredIdioms.length / IDIOMS_PER_BATCH);
+    
+    if (nextBatchIndex < totalBatches) {
+      goToBatch(nextBatchIndex);
     } else {
       // 모든 성어 학습 완료
       alert("모든 성어를 학습했습니다!");
-      setViewMode('learning');
-      setBatchIndex(0);
-      setCurrentCardIndex(0);
-      const firstBatch = filteredIdioms.slice(0, IDIOMS_PER_BATCH);
-      setCurrentBatch(firstBatch);
+      goToBatch(0); // 첫 번째 배치로 돌아가기
     }
   };
   
@@ -224,7 +235,21 @@ function IdiomLearningView({ selectedCategory, onBackToHome }) {
             <p>{selectedCategory.name} - {selectedCategory.description}</p>
           )}
           {filteredIdioms.length > 0 && (
-            <p>배치 {batchIndex + 1}/{Math.ceil(filteredIdioms.length / IDIOMS_PER_BATCH)}</p>
+            <div className="batch-controls">
+              <span className="batch-text">배치</span>
+              <select 
+                className="batch-selector"
+                value={batchIndex}
+                onChange={handleBatchChange}
+              >
+                {Array.from({ length: Math.ceil(filteredIdioms.length / IDIOMS_PER_BATCH) }, (_, i) => (
+                  <option key={i} value={i}>
+                    {i + 1}
+                  </option>
+                ))}
+              </select>
+              <span className="batch-total">/ {Math.ceil(filteredIdioms.length / IDIOMS_PER_BATCH)}</span>
+            </div>
           )}
         </div>
       </div>
